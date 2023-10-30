@@ -111,6 +111,7 @@ function App() {
 
         if(psswrd === confirm){
             alert(`Registration SuccessFull : ${uname} : ${email}`)
+            handleReset();
         }
         else
         {
