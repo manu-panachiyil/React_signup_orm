@@ -15,12 +15,14 @@ function App() {
   const [isEmail, setIsEmail] = useState(true)
   const [isConfirm, setIsConfirm] = useState(true)
   const [error, setError] = useState(true)
+  const [isEmailVal, setIsEmailVal] = useState(true)
 
   const getUserDataName = (e) => {
-    //console.log(e.target.value);
+
+    console.log(e.target.value);
 
     const {name,value} = e.target;
-    if(!!value){
+    
       if(name === 'uname'){
         setUname(value)
         setIsUname(true)
@@ -29,7 +31,7 @@ function App() {
         setEmail(value)
         setIsEmail(true)
       }
-    }
+    
    
   }
 
@@ -96,20 +98,31 @@ function App() {
       else if(!confirm){
         setIsConfirm(false)
       }
+      else if(uname === null){
+        setIsUname(false)
+      }
     else{
-      if(psswrd === confirm){
-          alert(`Registration SuccessFull : ${uname} : ${email}`)
+      if(!email.includes('@')){
+          setIsEmailVal(false)
       }
-      else
-      {
-        setError(false)
-        
-      }
+      else{
+
+        setIsEmailVal(true)
+
+        if(psswrd === confirm){
+            alert(`Registration SuccessFull : ${uname} : ${email}`)
+        }
+        else
+        {
+          setError(false)
+          
+        }
+    }
     }
     
   }
   
-  const handleReset = () => {
+  const handleReset = (e) => {
    
     setUname('')
     setEmail('')
@@ -120,6 +133,7 @@ function App() {
     setIsUname(true)
     setIsEmail(true)
     setIsConfirm(true)
+    setIsEmailVal(true)
   }
 
 
@@ -128,7 +142,7 @@ function App() {
 
      <div className='flex flex-wrap justify-center pt-7 pb-6'>
 
-        <img class="max-h-20 w-12" src={img} alt="" />
+        <img className="max-h-20 w-12" src={img} alt="" />
           <h2 className=" text-blue-600 font-mono ps-2"> sign up</h2>
      </div>
       <form onSubmit={handleSubmit}>
@@ -145,6 +159,11 @@ function App() {
         <div className="mx-auto mt-3">
         <TextField  label="Email id" name="email" onChange={(e) => getUserDataName(e)}  variant="outlined" className="w-64" value={email || ''}/>
         </div>
+
+        { !isEmailVal && <div>
+          <p className='text-danger text-xs mt-2'>* Please enter valid Email *</p>
+        </div>
+        }
 
         { !isEmail && <div>
           <p className='text-danger text-xs mt-2'>* Mandatory Field *</p>
