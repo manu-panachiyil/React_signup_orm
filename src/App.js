@@ -4,6 +4,16 @@ import './App.css';
 import { TextField, Button } from '@mui/material';
 import img from './img/images.png'
 
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+
+
+
 function App() {
 
   const [uname, setUname] = useState('')
@@ -16,6 +26,20 @@ function App() {
   const [isConfirm, setIsConfirm] = useState(true)
   const [error, setError] = useState(true)
   const [isEmailVal, setIsEmailVal] = useState(true)
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = (e) => {
+    e.preventDefault()
+    setShowPassword(!showPassword);
+  };
+
+  const [showConfirm, setShowConfirm] = useState(false);
+  const toggleConfirmVisibility = (e) => {
+    e.preventDefault()
+    setShowConfirm(!showConfirm);
+  };
+
 
   const getUserDataName = (e) => {
 
@@ -172,15 +196,61 @@ function App() {
         }
 
         <div className="mx-auto mt-3">
-        <TextField  label="Password" type="password" name="psswrd" onChange={(e) => getUserData(e)} autoComplete="current-password" className="w-64" value={psswrd || ''} />        
+        <FormControl  variant="outlined">
+        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <OutlinedInput
+            className="w-64"
+            onChange={(e) => getUserData(e)} 
+            name='psswrd'
+            value={psswrd || ''}
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={togglePasswordVisibility}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+          />
+          </FormControl>      
         </div>
         
         { !isPwd? " " : <div>
           <p className='text-success text-xs mt-2'>Password should contain [1,@,A,a,8]</p>
         </div>
         }
+       
+
         <div className="mx-auto mt-2">
-        <TextField label="Confirm Password" type="password" name="confirm" onChange={(e) => getUserData(e)} className="w-64" value={confirm || ''} />        
+        <FormControl  variant="outlined">
+        <InputLabel htmlFor="outlined-adornment-password">Confirm Password</InputLabel>
+          <OutlinedInput
+            className="w-64"
+            id="outlined-adornment-password"
+            onChange={(e) => getUserData(e)} 
+            name='confirm'
+            value={confirm || ''}
+            type={showConfirm ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={toggleConfirmVisibility}
+                  edge="end"
+                >
+                  {showConfirm ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Confirm Password"
+          />
+          </FormControl>
+
         </div>
 
         { !isConfirm && <div>
@@ -189,7 +259,7 @@ function App() {
         }
 
         { !error && <div>
-          <p className='text-danger text-xs mt-2'>Password Missmatch</p>
+          <p className='text-danger text-xs mt-2'>* Password Missmatch *</p>
         </div>
         }
 
